@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+	--color-cua-orange: rgb(255, 150, 41);
+	--font-sans: "Roboto", sans-serif;
+}
