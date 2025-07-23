@@ -7,7 +7,7 @@ export default function PasswordRecovery() {
 		<Layout>
 			<main className="w-1/2 mx-auto mt-30">
 				<Link to="/login">
-					<BackwardIcon classes="w-8 h-8 mb-3 hover:-translate-x-1 transition-all cursor-pointer" />
+					<BackwardIcon className="w-8 h-8 mb-3 hover:-translate-x-1 transition-all cursor-pointer" />
 				</Link>
 				<form className='flex flex-col px-60 py-15 gap-4 mx-auto drop-shadow-sm bg-gray-100 rounded-sm items-center text-2xl'>
 					<span className="text-sm text-center text-red-500">¡Importante! <br />Si el correo no aparece en tu bandeja de entrada, no olvides revisar la carpeta de correo no deseado o spam.</span>

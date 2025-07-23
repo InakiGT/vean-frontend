@@ -1,20 +1,86 @@
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import Layout from '@/components/Layout'
-import { Link } from 'react-router-dom'
+import config from '@/config'
+import { setCookie } from '@/helpers/cookies'
+
+const URI = `${ config.serverUri }/auth/login`
 
 export default function Login() {
+	const [ error, setError ] = useState('')
+	const [ emailError, setEmailError ] = useState(false)
+	const [ passwordError, setPasswordError ] = useState(false)
+
+	const navigator = useNavigate()
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
+
+		setEmailError(false)
+		setPasswordError(false)
+
+		const form = event.target as HTMLFormElement
+		const formData = new FormData(form)
+
+		const email = formData.get('email') as string
+		const password = formData.get('password') as string
+
+		if ( email.trim() === '' ) {
+			return setEmailError(true)
+		}
+
+		if ( password.trim() === '' ) {
+			return setPasswordError(true)
+		}
+
+		try {
+			const loginData = {
+				email,
+				password
+			}
+
+			const response = await fetch(URI, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ ...loginData }),
+			})
+
+			if (response.status === 401) {
+				return setError('Credenciales inválidas')
+			}
+
+			if (response.status === 500) {
+				return setError('Ocurrió un error, favor de intentarlo más tarde')
+			}
+
+			const token = (await response.json()).data
+			await setCookie('jwt', token)
+
+			navigator('/')
+		} catch {
+			setError('Ocurrió un error inesperado')
+		}
+	}
+
 	return (
 		<Layout>
-			<main>
-				<form className='flex flex-col px-60 py-15 w-1/2 gap-4 mx-auto drop-shadow-sm bg-gray-100 rounded-sm items-center text-2xl mt-30'>
+			<main className='mb-10'>
+				<form onSubmit={ handleSubmit } className='flex flex-col px-60 py-15 w-1/2 gap-4 mx-auto drop-shadow-sm bg-gray-100 rounded-sm items-center text-2xl mt-30'>
 					<div className='flex flex-col w-full'>
 						<label className='font-bold' htmlFor="email">Correo:</label>
-						<input className='px-3 py-2 text-xl rounded-sm bg-gray-200 border-b-1 border-b-gray-300' id='email' type="email" placeholder='Correo' />
+						<input className={`px-3 py-2 text-xl rounded-sm bg-gray-200 border-b-1 border-b-gray-300 ${ emailError && 'border-b-red-400 animate-pulse' }`} id='email' name='email' type="email" placeholder='Correo' />
 					</div>
 					<div className='flex flex-col w-full'>
 						<label className='font-bold' htmlFor="password">Contraseña:</label>
-						<input className='px-3 py-2 text-xl rounded-sm bg-gray-200 border-b-1 border-b-gray-300' type="password" id='password' placeholder='Contraseña' />
+						<input className={`px-3 py-2 text-xl rounded-sm bg-gray-200 border-b-1 border-b-gray-300 ${ passwordError && 'border-b-red-400 animate-pulse' }`} type="password" id='password' placeholder='Contraseña' name='password' />
 					</div>
-					<button className='bg-blue-900 text-white w-50 rounded-sm uppercase py-2 mt-4 text-lg' type='submit'>Iniciar sesión</button>
+					{
+						error &&
+						<span className='bg-red-400 text-white font-bold text-md w-full text-center rounded-sm'>{ error }</span>
+					}
+					<button className='bg-blue-900 text-white w-50 rounded-sm uppercase py-2 mt-4 text-lg cursor-pointer hover:bg-blue-950 transition-colors' type='submit'>Iniciar sesión</button>
 
 					<div className='flex flex-col mt-5 text-blue-900 gap-2'>
 						<Link className='cursor-pointer text-sm' to='/password-recovery'>Olvidé mi contraseña</Link>

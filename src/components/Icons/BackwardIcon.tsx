@@ -1,7 +1,8 @@
+import { SVGProps } from 'react'
 
-export default function BackwardIcon({ classes }: { classes: string }) {
+export default function BackwardIcon({ ...props }: SVGProps<SVGSVGElement>) {
 	return (
-		<svg className={ classes } aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+		<svg { ...props } aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 			<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7"/>
 		</svg>
 	)

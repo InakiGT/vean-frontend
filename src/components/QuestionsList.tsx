@@ -1,9 +1,14 @@
 import QuestionItem from '@/components/QuestionItem'
+import { QuestionWithId } from '@/store/questions/types'
 
-export default function QuestionsList() {
+export default function QuestionsList({ questions }: { questions: QuestionWithId[] | undefined }) {
 	return (
 		<ul className='flex flex-col gap-4 px-2'>
-			<QuestionItem />
+			{
+				questions?.map(question => (
+					<QuestionItem question={ question } />
+				))
+			}
 		</ul>
 	)
 }
