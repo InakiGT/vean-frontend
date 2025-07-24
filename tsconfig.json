@@ -19,9 +19,10 @@
 
     /* Alias Configuration - ADD THESE LINES */
     "baseUrl": ".", // Important for paths to work correctly
-    "paths": {
+"paths": {
       "@/*": ["./src/*"]
     },
+    "types": ["node"],
 
     /* Linting */
     "strict": true,
@@ -29,6 +30,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"], // Ensure your source directory is included
-  "references": [{ "path": "./tsconfig.node.json" }] // You might have this already for tests/server code
+  "include": ["src"] // Ensure your source directory is included
 }

@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 		<div className="grid min-h-dvh grid-rows-[auto_1fr_auto] relative">
 			<Header />
 			{
-				location.pathname !== '/games' && location.pathname !== '/login' &&
+				location.pathname !== '/games' && location.pathname !== '/login' && location.pathname !== '/register' &&
 				<GamesContainer />
 			}
 			{ children }

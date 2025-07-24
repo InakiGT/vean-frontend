@@ -15,7 +15,7 @@ export default function Header() {
 		const validateCookie = async () => {
 			const cookie = await getCookie('jwt')
 
-			if (!cookie?.value && location.pathname !== '/login') {
+			if (!cookie?.value && location.pathname !== '/login' && location.pathname !== '/register') {
 				navigate('/login')
 			}
 		}
@@ -30,7 +30,7 @@ export default function Header() {
 			<h1 className="text-3xl font-bold">Sistema de Videojuegos de Apoyo a la Enseñanza para Profesores (VAEP)</h1>
 
 			{
-				location.pathname !== '/login' &&
+				location.pathname !== '/login' && location.pathname !== '/register' &&
 				<button onClick={ logout } className="bg-blue-950 px-5 rounded-sm uppercase py-2 flex flex-row items-center justify-between gap-3 cursor-pointer">Cerrar sesión</button>
 			}
 		</header>
