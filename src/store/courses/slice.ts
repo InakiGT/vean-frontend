@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { CourseWithId } from '@/store/courses/types'
-import { fetchCourses, createCourse, deleteCourse } from '@/thunks/course.thunk'
+import { fetchCourses, createCourse, deleteCourse, updateCourse } from '@/thunks/course.thunk'
 
 const initialState: {
 	data: CourseWithId[] | [],
@@ -46,6 +46,29 @@ export const coursesSlice = createSlice({
 			.addCase(createCourse.rejected, (state, action) => {
 				state.loading = false
 				state.error = action.error.message || 'Ocurrió un error al crear el curso'
+			})
+			// Caso de edición de una materia
+			.addCase(updateCourse.pending, state => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(updateCourse.fulfilled, (state, action) => {
+				state.loading = false
+				const { id, name, status } = action.payload
+
+				if ( status === 204 ) {
+					const index = state.data.findIndex(course => course._id === id)
+
+					if ( index !== -1 ) {
+						state.data[index].name = name
+					}
+				} else {
+					state.error = 'Ocurrió un error al editar el curso'
+				}
+			})
+			.addCase(updateCourse.rejected, (state, actions) => {
+				state.loading = false
+				state.error = actions.error.message || 'Ocurrió un error al editar el curso'
 			})
 			// Caso de eliminación de una materia
 			.addCase(deleteCourse.pending, state => {

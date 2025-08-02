@@ -1,6 +1,6 @@
-import { Theme, ThemeId } from '@/store/themes/types'
+import { Theme, ThemeId, ThemeWithId } from '@/store/themes/types'
 import { useAppDispatch } from '@/hooks/store'
-import { createTheme, deleteTheme, fetchThemeWithQuestions } from '@/thunks/theme.thunk'
+import { createTheme, deleteTheme, fetchThemeWithQuestions, updateTheme } from '@/thunks/theme.thunk'
 
 export const useThemesActions = () => {
 	const dispatch = useAppDispatch()
@@ -17,5 +17,9 @@ export const useThemesActions = () => {
 		return dispatch(deleteTheme(id))
 	}
 
-	return { getThemeWithId, addTheme, removeTheme }
+	const changeTheme = (theme: ThemeWithId) => {
+		return dispatch(updateTheme(theme))
+	}
+
+	return { getThemeWithId, addTheme, removeTheme, changeTheme }
 }

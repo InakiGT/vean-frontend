@@ -6,6 +6,8 @@ import Games from '@/Games'
 import Course from '@/Course'
 import Register from '@/Register'
 import PasswordRecovery from '@/PasswordRecovery'
+import Question from '@/Question'
+import MCQuestion from '@/MCQuestion'
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
 			<Route path='/login' element={ <Login /> } />
 			<Route path='/register' element={ <Register /> } />
 			<Route path='/password-recovery' element={ <PasswordRecovery /> } />
+			<Route path='/question/open/:id' element={ <Question /> } />
+			<Route path='/question/mc/:id' element={ <MCQuestion /> } />
 		</Routes>
   )
 }

@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/hooks/store'
-import { Question, QuestionId } from '@/store/questions/types'
+import { Question, QuestionId, QuestionWithId } from '@/store/questions/types'
 import { fetchCourseWithThemes } from '@/thunks/course.thunk'
-import { createQuestion, deleteQuestion } from '@/thunks/question.thunk'
+import { createQuestion, deleteQuestion, updateQuestion } from '@/thunks/question.thunk'
 
 export const useQuestionsActions = () => {
 	const dispatch = useAppDispatch()
@@ -18,5 +18,9 @@ export const useQuestionsActions = () => {
 		return dispatch(deleteQuestion(deleteOptions))
 	}
 
-	return { getQuestionById, addQuestion, removeQuestion }
+	const changeQuestion = (question: QuestionWithId) => {
+		return dispatch(updateQuestion(question))
+	}
+
+	return { getQuestionById, addQuestion, removeQuestion, changeQuestion }
 }

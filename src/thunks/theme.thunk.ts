@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import config from '@/config'
-import { Theme } from '@/store/themes/types'
+import { Theme, ThemeWithId } from '@/store/themes/types'
 import { getCookie } from '@/helpers/cookies'
 
 const URI = `${ config.serverUri }/theme`
@@ -24,6 +24,26 @@ export const createTheme = createAsyncThunk('/theme/create', async (data: Theme)
 	})
 
 	return (await response.json()).data
+})
+
+export const updateTheme = createAsyncThunk('/theme/update', async (theme: ThemeWithId) => {
+	const cookie = await getCookie('jwt')
+	const { _id, name } = theme
+
+	const response = await fetch(`${ URI }/${ _id }`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${ cookie?.value }`
+		},
+		body: JSON.stringify({ name }),
+	})
+
+	return {
+		id: _id,
+		name,
+		status: response.status,
+	}
 })
 
 export const deleteTheme = createAsyncThunk('/theme/delete', async (id: string) => {

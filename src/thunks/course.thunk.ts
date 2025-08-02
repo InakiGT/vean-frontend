@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import config from '@/config'
-import { Course } from '@/store/courses/types'
+import { Course, CourseWithId } from '@/store/courses/types'
 import { getCookie } from '@/helpers/cookies'
 
 const URI = `${ config.serverUri }/course`
@@ -30,6 +30,26 @@ export const createCourse = createAsyncThunk('/course/create', async (course: Co
 	})
 
 	return (await response.json()).data
+})
+
+export const updateCourse = createAsyncThunk('/course/update', async (course: CourseWithId) => {
+	const cookie = await getCookie('jwt')
+	const { _id, name } = course
+
+	const response = await fetch(`${ URI }/${ _id }`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${ cookie?.value }`
+		},
+		body: JSON.stringify({ name }),
+	})
+
+	return {
+		id: _id,
+		name,
+		status: response.status,
+	}
 })
 
 export const deleteCourse = createAsyncThunk('/course/delete', async (id: string) => {

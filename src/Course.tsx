@@ -13,7 +13,7 @@ import { useThemesActions } from '@/hooks/useThemesActions'
 
 export default function Course() {
 	const params = useParams()
-	const { getCourseById } = useCoursesActions()
+	const { getCourseById, changeCourse } = useCoursesActions()
 	const { addTheme } = useThemesActions()
 
 	const [ course, setCourse ] = useState<CourseWithId>()
@@ -29,7 +29,20 @@ export default function Course() {
 		setCourse(data)
 	}, [ data ])
 
-	const handleUpdate = () => {}
+	const handleUpdate = (event: React.FormEvent<HTMLSpanElement>) => {
+		const name = event.currentTarget.textContent ?? ''
+		const { id } = params
+
+		if ( name?.trim() === '' ) {
+			return setResult('ko')
+		}
+
+		changeCourse({
+			_id: id ?? '',
+			name,
+		})
+	}
+
 	const handleCreateTheme = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 

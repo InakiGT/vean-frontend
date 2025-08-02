@@ -32,7 +32,7 @@ export default function GamesContainer() {
 	if (error) return <GetGamesContainerError />
 
 	return (
-		<aside className="absolute right-10 bottom-1/4 bg-black/80 drop-shadow-2xl shadow-black h-120 w-40 p-2 rounded-sm flex flex-col">
+		<aside className="fixed right-10 bottom-1/5 bg-black/80 drop-shadow-2xl shadow-black h-120 w-40 p-2 rounded-sm flex flex-col">
 			<Link to="/games" className="bg-blue-800 text-white font-bold cursor-pointer px-2 py-1 rounded-sm text-center">Ver menú</Link>
 
 			<ul className="mt-2 flex flex-col gap-4 h-full overflow-y-scroll">

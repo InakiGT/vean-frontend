@@ -15,7 +15,7 @@ import MultipleChoiceQuestionForm from '@/components/MultipleChoiceQuestionForm'
 export default function Theme() {
 	const params = useParams()
 	const navigator = useNavigate()
-	const { getThemeWithId } = useThemesActions()
+	const { getThemeWithId, changeTheme } = useThemesActions()
 
 	const [ theme, setTheme ] = useState<ThemeWithId>()
 	const [ selectedForm, setSelectedForm ] = useState<'open' | 'mc'>('open')
@@ -28,6 +28,19 @@ export default function Theme() {
 	useEffect(() => {
 		setTheme(data)
 	}, [ data ])
+
+	const handleUpdate = (event: React.FormEvent<HTMLSpanElement>) => {
+		const name = event.currentTarget.textContent ?? ''
+		const { id } = params
+
+		if ( name?.trim() === '' ) return
+
+		changeTheme({
+			course: '',
+			_id: id ?? '',
+			name,
+		})
+	}
 
 	if (error) return <p>ERROR</p>
 
@@ -42,7 +55,7 @@ export default function Theme() {
 				</h3>
 				<h2 className="text-3xl font-bold text-center mb-3 flex items-center gap-2 justify-center">
 					Tema:
-					<span className='text-gray-900' contentEditable="true">{ loading ? <TitleSkeleton /> : theme?.name}</span>
+					<span className='text-gray-900' contentEditable="true" onBlur={ handleUpdate }>{ loading ? <TitleSkeleton /> : theme?.name}</span>
 					<EditIcon className='w-6 h-6 text-blue-400 cursor-pointer' />
 				</h2>
 
@@ -53,8 +66,8 @@ export default function Theme() {
 					<section className="w-full flex flex-col items-center mx-auto mt-5 mb-10">
 						<h3 className='font-bold text-2xl mb-2'>Agregar una pregunta</h3>
 						<div className='w-full flex gap-3 items-center'>
-							<p className={`${ selectedForm === 'open' && 'bg-gray-200 py-2 px-3 font-medium rounded-t-lg' }`} onClick={ () => setSelectedForm('open') }>Pregunta / Respuesta</p>
-							<p className={`${ selectedForm === 'mc' && 'bg-gray-200 py-2 px-3 font-medium rounded-t-lg' }`} onClick={ () => setSelectedForm('mc') }>Opción múltiple</p>
+							<p className={`cursor-pointer ${ selectedForm === 'open' && 'bg-gray-200 py-2 px-3 font-medium rounded-t-lg' }`} onClick={ () => setSelectedForm('open') }>Pregunta / Respuesta</p>
+							<p className={`cursor-pointer ${ selectedForm === 'mc' && 'bg-gray-200 py-2 px-3 font-medium rounded-t-lg' }`} onClick={ () => setSelectedForm('mc') }>Opción múltiple</p>
 						</div>
 
 						{

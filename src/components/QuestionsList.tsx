@@ -6,7 +6,7 @@ export default function QuestionsList({ questions }: { questions: QuestionWithId
 		<ul className='flex flex-col gap-4 px-2'>
 			{
 				questions?.map(question => (
-					<QuestionItem question={ question } />
+					<QuestionItem key={ question._id } question={ question } />
 				))
 			}
 		</ul>
