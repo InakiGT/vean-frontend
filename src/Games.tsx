@@ -7,6 +7,7 @@ import { useGamesActions } from '@/hooks/useGamesActions'
 
 export default function Games() {
 	const [ result, setResult ] = useState<'ok' | 'ko' | null>(null)
+	const [ photo, setPhoto ] = useState<string | null>(null)
 
 	const { addGame } = useGamesActions()
 
@@ -32,6 +33,7 @@ export default function Games() {
 
 		setResult('ok')
 		form.reset()
+		setPhoto(null)
 	}
 
 	return (
@@ -45,7 +47,7 @@ export default function Games() {
 					<GamesList />
 
 					<div className='flex gap-5 mt-5 items-center'>
-						<img className="rounded-sm w-70 h-full" src="https://cdn-icons-png.flaticon.com/512/739/739249.png" alt="" />
+						<img className="rounded-sm w-70 h-full" src={ photo ? photo : 'https://static.thenounproject.com/png/1034957-200.png' } alt="" />
 						<form className="flex flex-col gap-2 text-sm w-50" onSubmit={ handleSubmit }>
 							<div className="flex flex-col">
 								<label className="font-semibold" htmlFor="">Nombre:</label>
@@ -57,7 +59,7 @@ export default function Games() {
 							</div>
 							<div className="flex flex-col">
 								<label className="font-semibold" htmlFor="">URL de la imagen:</label>
-								<input className="border-b-1 border-b-gray-300 bg-gray-200 rounded-sm px-2 py-1" name='img-uri' type="url" placeholder="Nombre del juego" />
+								<input className="border-b-1 border-b-gray-300 bg-gray-200 rounded-sm px-2 py-1" name='img-uri' type="url" onChange={ event => setPhoto(event.target.value) } placeholder="Nombre del juego" />
 							</div>
 							<button type='submit' className="bg-green-800 rounded-sm flex py-2 px-3 justify-between gap-3 text-white uppercase hover:bg-green-900 hover:drop-shadow-md transition-all cursor-pointer text-center"><span>+</span> Agregar juego</button>
 						</form>
